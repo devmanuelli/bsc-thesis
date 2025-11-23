@@ -1,0 +1,28 @@
+Nov 20, 2025 3:27:20 PM mediator.ol
+WARNING: [mediator.ol] Received a message for operation employee, not specified in the input port MediatorAPI at the receiving service. Sending IOException to the caller.
+Nov 20, 2025 3:27:20 PM mediator.ol
+WARNING: [mediator.ol] Received a message for operation payroll, not specified in the input port MediatorAPI at the receiving service. Sending IOException to the caller.
+Nov 20, 2025 3:29:44 PM mediator.ol
+WARNING: [mediator.ol] Received a message for operation employee, not specified in the input port MediatorAPI at the receiving service. Sending IOException to the caller.
+Nov 20, 2025 3:30:49 PM mediator.ol
+WARNING: [mediator.ol] Received a message for operation employee, not specified in the input port MediatorAPI at the receiving service. Sending IOException to the caller.
+
+[MEDIATOR] Request for employee: 123
+  → Calling JSON service on port 8001...
+Nov 20, 2025 3:31:00 PM mediator.ol
+SEVERE: [mediator.ol] Request-Response process for getEmployee threw an undeclared fault for that operation (TypeMismatch), throwing TypeMismatch
+Nov 20, 2025 3:31:00 PM mediator.ol
+INFO: [mediator.ol] Thrown unhandled fault: TypeMismatch
+Source location: /home/matteo/bsc-thesis/examples/mediator.ol:84
+Content (if any):string = "Received message TypeMismatch (getEmployee@EmployeeService): Unexpected child node: #Message.salary"
+
+
+[MEDIATOR] Request for employee: 123
+  → Calling JSON service on port 8001...
+Nov 20, 2025 3:31:08 PM mediator.ol
+SEVERE: [mediator.ol] Request-Response process for getEmployee threw an undeclared fault for that operation (TypeMismatch), throwing TypeMismatch
+Nov 20, 2025 3:31:08 PM mediator.ol
+INFO: [mediator.ol] Thrown unhandled fault: TypeMismatch
+Source location: /home/matteo/bsc-thesis/examples/mediator.ol:84
+Content (if any):string = "Received message TypeMismatch (getEmployee@EmployeeService): Unexpected child node: #Message.salary"
+

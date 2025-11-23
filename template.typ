@@ -13,14 +13,14 @@
 ) = {
   set document(author: author, title: title)
 
-  // Specs: 2.5cm + 0.5-0.8cm binding offset on spine (left)
+  // Margins: 2.5cm uniform (cartabinaria standard)
   set page(
-    margin: (left: 31mm, right: 25mm, top: 25mm, bottom: 25mm),
+    margin: 2.5cm,
     numbering: none,
   )
 
-  // Specs: Serif font, 12pt, justified, 1.5 line spacing
-  set text(font: "Linux Libertine O", size: 12pt, lang: "en")
+  // Font: Libertinus Serif, 12pt, justified, 1.5 line spacing
+  set text(font: "Libertinus Serif", size: 12pt, lang: "en")
   set par(justify: true, leading: 0.75em)
 
   // Specs: 10pt footnotes
@@ -66,9 +66,9 @@
   counter(page).update(1)
   set heading(numbering: "1.1")
 
-  // Specs: sections start on odd pages only
+  // Sections start on new pages
   show heading.where(level: 1): it => {
-    pagebreak(to: "odd")
+    pagebreak()
     it
   }
 

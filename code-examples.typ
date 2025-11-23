@@ -70,7 +70,7 @@ function findMatchingGrandfathers(Person[] persons) returns Person[] {
 #let js-lines = js-code.text.split("\n").len()
 #let ballerina-lines = ballerina-code.text.split("\n").len()
 
-= Code Examples
+== Tree Traversal Complexity in Traditional Languages
 
 Go: #go-lines lines
 

@@ -1,0 +1,38 @@
+{
+  "order": {
+    "orderId": "ORD-2024-001",
+    "customerId": "CUST-123",
+    "items": [
+      {
+        "productId": "SKU-001",
+        "productName": "Wireless Mouse",
+        "quantity": 2,
+        "price": 29.99
+      },
+      {
+        "productId": "SKU-002",
+        "productName": "USB-C Cable",
+        "quantity": 1,
+        "price": 49.99
+      },
+      {
+        "productId": "SKU-003",
+        "productName": "Screen Protector",
+        "quantity": 5,
+        "price": 9.99
+      }
+    ],
+    "auditLog": [
+      { "timestamp": "2024-01-15T10:30:00Z", "event": "order_created", "userId": "user123" },
+      { "timestamp": "2024-01-15T10:30:15Z", "event": "item_added", "productId": "SKU-001" },
+      { "timestamp": "2024-01-15T10:30:30Z", "event": "item_added", "productId": "SKU-002" },
+      { "timestamp": "2024-01-15T10:30:45Z", "event": "item_added", "productId": "SKU-003" },
+      { "timestamp": "2024-01-15T10:31:00Z", "event": "shipping_address_set", "country": "US" },
+      { "timestamp": "2024-01-15T10:31:15Z", "event": "payment_method_selected", "method": "credit_card" },
+      { "timestamp": "2024-01-15T10:31:30Z", "event": "payment_processed", "amount": 109.97 },
+      { "timestamp": "2024-01-15T10:31:45Z", "event": "fraud_check_passed", "score": 0.95 },
+      { "timestamp": "2024-01-15T10:32:00Z", "event": "inventory_reserved", "warehouse": "WH-NA-01" },
+      { "timestamp": "2024-01-15T10:32:15Z", "event": "shipment_prepared", "carrier": "FedEx" }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+
+[MEDIATOR] Request for employee: 123
+  → Calling JSON service...
+  ← Received JSON: Alice
+
+[MEDIATOR] Request for payroll: 456
+  → Calling XML service...
+  ← Received XML (auto converted): $5000
+
+[MEDIATOR] Request for employee: 123
+  → Calling JSON service...
+  ← Received JSON: Alice
+
+[MEDIATOR] Request for payroll: 456
+  → Calling XML service...
+  ← Received XML (auto converted): $5000

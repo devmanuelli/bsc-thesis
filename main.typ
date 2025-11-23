@@ -4,16 +4,22 @@
 
 #show: thesis.with(
   title: "Your Thesis Title Here",
-  author: "Your Name",
-  supervisor: "Prof. Supervisor Name",
+  author: "Matteo Manuelli",
+  supervisor: "Prof. Saverio Giallorenzo",
   department: "Department of Computer Science and Engineering",
   degree: "Master's Degree in Computer Science",
   academic-year: "2024/2025",
   session: "March",
 )
 
-= Introduction
+#include "introduction.typ"
 
-Your content goes here.
+#include "background.typ"
+
+#include "paths-values.typ"
+
+#include "path-pval.typ"
+
+#include "conclusion.typ"
 
 #bibliography("bibliography.bib", title: "Bibliography", style: "ieee")
