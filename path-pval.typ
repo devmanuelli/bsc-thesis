@@ -1,5 +1,7 @@
 = The Native `path` Type and `pval` <path-pval>
 
+This chapter introduces the native path primitive type and the `pval()` function operator for dereferencing path values. We begin by examining the design rationale for `pval()` as a distinct operator rather than extending existing syntax. The path type is then presented as a first-class primitive, with discussion of its protocol-agnostic communication properties including wire format representation and type validation at message boundaries. The `pval()` function is explored in detail, demonstrating its use for reading values, writing values, and performing deep copies. We examine the two-phase query pattern enabled by separating path collection from value access, and conclude with runtime type checking mechanisms that ensure type safety without repeated validation.
+
 The `paths` expression returns values representing locations in a tree structure. However, these values cannot be used directly---they are symbolic references, not the actual data. Without a mechanism to dereference them, `paths` results would be useless. The `pval()` function bridges this gap, converting path references into accessible values.
 
 == Design Consideration: Why `pval()`?
@@ -57,7 +59,7 @@ if (res.results[0] instanceof path) {
 
 === Protocol-Agnostic Communication
 
-Like other basic primitive types, `path` values can be used in request and response type definitions:
+As a primitive type, `path` must be sendable as messages across services, just like other primitive types such as `int`, `string`, or `bool`.
 
 ```jolie
 type PathRequest {
@@ -97,16 +99,16 @@ The validation process:
 
 This approach ensures type safety without trusting external input. The interface contract defines what type is expected (`path`), and the type system enforces this by validating the structural correctness of received strings against the grammar.
 
-Values already validated—whether from PATHS primitives or previous type checks within the same runtime—skip re-validation for efficiency, but any string received over the wire is always validated to ensure it represents a legitimate path expression.
+*Important*: Path validation occurs only at _external_ service boundaries—when path values cross input/output ports between independent services. Embedded services operating within the same runtime do not trigger validation. Values already validated—whether from PATHS primitives or previous type checks within the same runtime—skip re-validation for efficiency, but any string received over the wire is always validated to ensure it represents a legitimate path expression.
 
 == The `pval()` Function
 
-The `pval()` function---short for "path evaluation"---dereferences a path to access the actual data at that location.
+The `pval()` function---short for "path evaluation"---dereferences a path to access the actual data at that location. Importantly, *`pval()` works both as an lvalue (for writing/modifying data) and as an rvalue (for reading data)*, providing complete bidirectional access through path references.
 
 === Syntax
 
 ```
-pval( path-expression ) suffix*
+pval( path-clause ) suffix*
 ```
 
 The function takes a path value and returns a reference to the actual data. Optional suffixes (`.field`, `[n]`) allow further navigation from the dereferenced location.
@@ -177,6 +179,18 @@ for (i = 0, i < #res.results, i++) {
 ```
 
 The parser recognizes `pval(...) << expr` as a deep copy statement, generating a `PvalDeepCopyStatement` AST node that performs a full tree copy to the dereferenced location.
+
+=== Key Capabilities
+
+The `pval()` function provides comprehensive access to path-referenced data:
+
+- *Works as lvalue*: Can modify data through path references (`pval(path).field = value`)
+- *Works as rvalue*: Can read data through path references (`x = pval(path).field`)
+- *Works with nested fields*: Supports deep navigation (`pval(path).field.subfield`)
+- *Works with arrays*: Supports array indexing (`pval(path).array[0]`)
+- *Supports both `=` and `<<`*: Simple assignment vs deep copy
+- *Can be used in expressions*: Arithmetic (`total = pval(p1).value + pval(p2).value`), conditions (`if (pval(path).salary > 50000)`)
+- *Path-to-path operations*: Direct transfers (`pval(dest) << pval(src)`)
 
 == Reference vs. Copy Semantics
 

@@ -2,9 +2,28 @@
 
 = Native Declarative Querying: PATHS and VALUES <paths-values>
 
-As established in the previous chapter, native Jolie provides no primitives to exploit its sophisticated tree variable representation for querying. While TQuery addressed this gap through an external library, it introduced significant performance overhead due to deep cloning requirements. The PATHS and VALUES expressions represent native Jolie language primitives that provide declarative tree querying by directly exploiting Jolie's internal Java tree variable representation (`Value` and `ValueVector` structures), eliminating both external dependencies and cloning overhead.
+This chapter presents the PATHS and VALUES primitives, native Jolie language constructs for declarative tree querying. We begin by introducing the syntax and semantics of these expressions, including the six path operations for navigating tree structures. We then examine the WHERE clause for filtering results and the \$ operator for referring to the current candidate value. The HAS operator for structural filtering is presented, followed by a discussion of the language extensions required to support these primitives. Finally, we analyze the implementation's complexity, demonstrating linear time and space performance through zero-copy navigation of Jolie's internal tree representation.
+
+== Motivation
+
+As established in the previous chapter, native Jolie provides no primitives to exploit its sophisticated tree variable representation for querying. While TQuery addressed this gap through an external library, it introduced significant performance overhead. The PATHS and VALUES expressions represent native Jolie language primitives that provide declarative tree querying by directly exploiting Jolie's internal Java tree variable representation (`Value` and `ValueVector` structures), eliminating both external dependencies and cloning overhead.
+
+=== Motivating Example
 
 By directly exploiting Jolie's internal Java tree variable representation, the grandfather problem—previously requiring nested loops or TQuery's pipeline with cloning overhead—simplifies dramatically. The same query that took 15 lines of imperative code or incurred substantial memory duplication with TQuery now becomes a single declarative expression:
+
+#figure(
+```jolie
+values data._[*] where
+    $.sex == "Male" &&
+    $.name == $.children[*].children[*].name
+```,
+  caption: [PATHS/VALUES grandfather query with declarative filtering]
+) <paths-values-grandfather>
+
+This expression traverses the entire data tree, filters for male persons, and checks if any grandchild's name matches the grandfather's name—all in three lines without explicit loops or intermediate variables.
+
+The query integrates naturally into a complete Jolie program:
 
 ```jolie
 from file import File
@@ -52,11 +71,11 @@ PATHS and VALUES expressions share a common syntax structure that enables flexib
 === Basic Syntax
 
 ```jolie
-paths <path-expression> where <condition>
-values <path-expression> where <condition>
+paths <path-clause> where <where-clause>
+values <path-clause> where <where-clause>
 ```
 
-The *path-expression* defines which parts of the tree to traverse, while the *where clause* filters results based on conditions. The key distinction: `paths` returns path-type values representing locations in the tree (e.g., `data[0].field`), while `values` returns the actual data at those locations. The native `path` type enables subsequent dereferencing via `pval()`.
+The *path-clause* defines which parts of the tree to traverse, while the *where-clause* filters results based on conditions. The key distinction: `paths` returns path-type values representing locations in the tree (e.g., `data[0].field`), while `values` returns deep copies of the actual data at those locations. The native `path` type enables subsequent dereferencing via `pval()`, which provides reference access without copying.
 
 === Path Operations
 
@@ -78,7 +97,7 @@ Six composable operations enable flexible tree navigation:
 *Grammar:*
 
 ```
-path-expression := identifier array-access? suffix*
+path-clause := identifier array-access? suffix*
 
 suffix := dot-access array-access?
 
@@ -172,15 +191,55 @@ This restriction ensures `$` has well-defined semantics---it always refers to th
 
 The WHERE clause uses *existential semantics*: a condition matches if *any* value in the evaluation satisfies it (∃), not all. This is critical for array comparisons.
 
+When path operations with wildcards (`[*]`, `.*`) produce arrays, comparison operators perform element-wise existential matching: the condition succeeds if *any* element from the left operand matches *any* element from the right operand.
+
 In the grandfather example:
 
 ```jolie
 $.name == $.children[*].children[*].name
 ```
 
-The expression `$.children[*].children[*].name` expands to all grandchildren names. The equality check succeeds if the grandfather's name matches *any* grandchild name, not all. This eliminates the need for explicit loops to check "does any element match?"
+The expression `$.children[*].children[*].name` expands to an array of all grandchildren names. The equality operator checks if *any* element from the left operand (the grandfather's name) equals *any* element from the right operand array (grandchildren names). This eliminates the need for explicit loops to check "does any element match?"
 
 *Example:* If `$.children[*].children[*].name` yields `["John", "Emma"]`, the condition `$.name == $.children[*].children[*].name` with `$.name = "John"` succeeds because "John" appears in the array.
+
+Similarly, in the companies filtering:
+
+```jolie
+$.technologies[*] == "Python"
+```
+
+The left operand `$.technologies[*]` produces an array of all technologies for the current project. Internally, the comparison operator converts both operands to arrays: the left side yields multiple values through the wildcard, while the right side literal `"Python"` becomes a singleton array `["Python"]`. The operator then performs a nested iteration over both arrays, succeeding if *any* element from the left matches *any* element from the right. This uniform array-based evaluation applies to all comparison operators—whether comparing array-to-literal (`$.technologies[*] == "Python"`), literal-to-literal (`$.status == "active"`), or array-to-array (`$.children[*].name == $.grandchildren[*].name`)—enabling consistent existential semantics across all operand combinations.
+
+==== Independent Condition Evaluation
+
+Each comparison in a WHERE clause evaluates independently to a boolean, which are then combined by logical operators (`&&`, `||`). Consider querying for employees named "Matteo Rossi":
+
+```jolie
+values data where
+    $.employees[*].name == "Matteo" &&
+    $.employees[*].surname == "Rossi"
+```
+
+If the data contains:
+- Employee 1: name="Matteo", surname="Maggio"
+- Employee 2: name="Roberto", surname="Rossi"
+
+The query *matches* even though no single employee satisfies both conditions:
+1. `$.employees[*].name == "Matteo"` evaluates independently → TRUE (Matteo Maggio exists)
+2. `$.employees[*].surname == "Rossi"` evaluates independently → TRUE (Roberto Rossi exists)
+3. TRUE `&&` TRUE → TRUE
+
+Each comparison produces a boolean result based on its own existential evaluation, without correlation to which specific elements satisfied other comparisons. The logical operators combine these boolean results, not the underlying array elements.
+
+To match a specific employee, reference the same structural level:
+
+```jolie
+// Match specific employee
+values data.employees[*] where $.name == "Matteo" && $.surname == "Rossi"
+```
+
+Here, `$` refers to each employee candidate individually, so both conditions evaluate against the same employee object.
 
 === The HAS Operator
 
@@ -380,3 +439,36 @@ For N matching nodes, space complexity is O(N × d) where d is tree depth:
 - No tree data duplication
 
 The `VALUES` expression performs deep copy only for matching results into the result array—after filtering, not during traversal.
+
+== Performance Evaluation <evaluation>
+
+This section presents empirical evaluation of the PATHS and VALUES primitives, comparing their performance against traditional imperative loops. The benchmarks use the same dataset, query, and test environment described in the TQuery evaluation (@background), enabling direct comparison. Since PATHS and VALUES share the same navigation and filtering implementation—differing only in whether they return path references or deep-copied values—we benchmark VALUES as representative of both primitives. TQuery is not included in these benchmarks because, as demonstrated in @background, it exhausts available memory and terminates under concurrent load, making comparison at these concurrency levels unfeasible.
+
+=== Implementations Compared
+
+The benchmark compares the imperative nested for-loop implementation from @background against an equivalent VALUES query:
+
+```jolie
+data -> global.data;
+results << values data.companies[*].company.departments[*].teams[*].projects[*]
+    where $.status == request.status && $.technologies[*] == request.technology
+```
+
+=== Benchmark Execution
+
+Both implementations handle concurrent HTTP requests at increasing load levels (100–500 parallel requests). Each concurrency level is repeated 20 times; results report mean and standard deviation. We measure P50 and P95 latency—the response times below which 50% and 95% of requests complete, respectively—as well as peak heap usage and young generation garbage collection frequency via `jstat`. Both latency plots share the same Y-axis scale to allow direct visual comparison.
+
+=== Results
+
+#figure(
+  image("pv_benchmark_results.png"),
+  caption: [Performance comparison: PATHS/VALUES vs Imperative across concurrency levels (mean ± std dev, N=20 runs)]
+)
+
+VALUES achieves *24–35% lower median latency* across all concurrency levels. At 500 concurrent requests, mean P50 drops from 3,099ms to 2,346ms. These gains stem from iterative in-place descent over Jolie's internal structures, early termination via existential semantics, and reduced instruction overhead—the Jolie-level loop machinery is replaced by Java-native traversal in the runtime.
+
+Garbage collection events decrease by *30–34%* consistently across all levels, indicating lower object allocation during query execution.
+
+Peak memory is the only metric where imperative loops outperform VALUES: the imperative approach uses less heap across all concurrency levels tested, with the gap widening under higher load. This is expected, as VALUES builds intermediate candidate lists during traversal, while the imperative approach processes elements incrementally.
+
+Overall, PATHS/VALUES delivers both simpler code and better latency—contradicting the common assumption that declarative abstractions necessarily sacrifice efficiency for expressiveness.
