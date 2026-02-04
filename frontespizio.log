@@ -1,0 +1,176 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2025/dev/Debian) (preloaded format=pdflatex 2026.1.29)  29 JAN 2026 19:09
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**frontespizio.tex
+(./frontespizio.tex
+LaTeX2e <2024-11-01> patch level 2
+L3 programming layer <2025-01-18>
+(/usr/share/texlive/texmf-dist/tex/latex/base/report.cls
+Document Class: report 2024/06/29 v1.4n Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size12.clo
+File: size12.clo 2024/06/29 v1.4n Standard LaTeX file (size option)
+)
+\c@part=\count196
+\c@chapter=\count197
+\c@section=\count198
+\c@subsection=\count199
+\c@subsubsection=\count266
+\c@paragraph=\count267
+\c@subparagraph=\count268
+\c@figure=\count269
+\c@table=\count270
+\abovecaptionskip=\skip49
+\belowcaptionskip=\skip50
+\bibindent=\dimen141
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2024/02/08 v1.3d Input encoding file
+\inpenc@prehook=\toks17
+\inpenc@posthook=\toks18
+)
+(/usr/share/texlive/texmf-dist/tex/generic/babel/babel.sty
+Package: babel 2025/02/14 v25.4 The multilingual framework for pdfLaTeX, LuaLaT
+eX and XeLaTeX
+\babel@savecnt=\count271
+\U@D=\dimen142
+\l@unhyphenated=\language3
+
+(/usr/share/texlive/texmf-dist/tex/generic/babel/txtbabel.def)
+\bbl@readstream=\read2
+\bbl@dirlevel=\count272
+
+(/usr/share/texlive/texmf-dist/tex/generic/babel/locale/it/babel-italian.tex)
+Package babel Info: Importing data for italian
+(babel)             from babel-it.ini. Reported on input line 4167.
+Package babel Info: Hyphen rules for 'italian' set to \l@english
+(babel)             (\language0). Reported on input line 4167.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/newlfont.sty
+Package: newlfont 1998/08/17 v2.2m Standard LaTeX package
+LaTeX Info: Redefining \em on input line 57.
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/latexsym.sty
+Package: latexsym 1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
+\symlasy=\mathgroup4
+LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
+(Font)                  U/lasy/m/n --> U/lasy/b/n on input line 52.
+))
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks19
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 106.
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2024/04/13 v1.2c Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen143
+\Gin@req@width=\dimen144
+)
+(/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count273
+\l__pdf_internal_box=\box52
+)
+(./frontespizio.aux)
+\openout1 = `frontespizio.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+
+(/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count274
+\scratchdimen=\dimen145
+\scratchbox=\box53
+\nofMPsegments=\count275
+\nofMParguments=\count276
+\everyMPshowfont=\toks20
+\MPscratchCnt=\count277
+\MPscratchDim=\dimen146
+\MPnumerator=\count278
+\makeMPintoPDFobject=\count279
+\everyMPtoPDFconversion=\toks21
+) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+<logo_unibo.png, id=1, 305.4612pt x 305.4612pt>
+File: logo_unibo.png Graphic file (type png)
+<use logo_unibo.png>
+Package pdftex.def Info: logo_unibo.png  used on input line 14.
+(pdftex.def)             Requested size: 99.58464pt x 99.58598pt.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <17.28> on input line 21.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 21.
+LaTeX Font Info:    Trying to load font information for U+lasy on input line 21
+.
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ulasy.fd
+File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
+)
+
+[1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./logo_unibo.png>]
+(./frontespizio.aux)
+ ***********
+LaTeX2e <2024-11-01> patch level 2
+L3 programming layer <2025-01-18>
+ ***********
+ ) 
+Here is how much of TeX's memory you used:
+ 2797 strings out of 475178
+ 47068 string characters out of 5766539
+ 442801 words of memory out of 5000000
+ 25801 multiletter control sequences out of 15000+600000
+ 567833 words of font info for 54 fonts, out of 8000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 57i,5n,65p,223b,451s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ </home/matteo/.texlive2025/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1440.60
+0pk> </home/matteo/.texlive2025/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx2074.
+600pk> </home/matteo/.texlive2025/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx109
+5.600pk> </home/matteo/.texlive2025/texmf-var/fonts/pk/ljfour/jknappen/ec/eccc1
+728.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.
+pfb>
+Output written on frontespizio.pdf (1 page, 250271 bytes).
+PDF statistics:
+ 132 PDF objects out of 1000 (max. 8388607)
+ 24 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+
